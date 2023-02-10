@@ -6,9 +6,9 @@
 #define LATTICE_VOLUME 27 // L^3
 #define MAX_ITERATIONS 10000 // maximum number of iterations
 #define TOLERANCE 1e-8 // tolerance for stopping criterion
-#define MU 0.1 // chemical potential µ
-#define LAMBDA 0.1 // constant ?
-#define K 1.0 // constant k
+#define MU 0.1 // chemical potential Âµ
+#define LAMBDA 0.2
+#define K (0.5/LAMBDA)
 
 // structure to represent a complex number
 typedef struct {
@@ -22,14 +22,14 @@ double magnitude(Complex z) {
 }
 
 int main() {
-  Complex Ø[LATTICE_VOLUME]; // field variable Ø
-  Complex Ø_new[LATTICE_VOLUME]; // updated field variable Ø
+  Complex Ã˜[LATTICE_VOLUME]; // field variable Ã˜
+  Complex Ã˜_new[LATTICE_VOLUME]; // updated field variable Ã˜
   double s = 1.0; // overrelaxation parameter
 
-  // initialize Ø with random values
+  // initialize Ã˜ with random values
   for (int i = 0; i < LATTICE_VOLUME; i++) {
-    Ø[i].real = (double)rand() / RAND_MAX;
-    Ø[i].imag = (double)rand() / RAND_MAX;
+    Ã˜[i].real = (double)rand() / RAND_MAX;
+    Ã˜[i].imag = (double)rand() / RAND_MAX;
   }
 
   // Hybrid Overrelaxation loop
@@ -38,19 +38,19 @@ int main() {
   while (sqrt(delta / LATTICE_VOLUME) > TOLERANCE) {
     delta = 0.0;
     for (int x = 0; x < LATTICE_VOLUME; x++) {
-      double old_real = Ø[x].real;
-      double old_imag = Ø[x].imag;
+      double old_real = Ã˜[x].real;
+      double old_imag = Ã˜[x].imag;
       for (int mu = 0; mu < 3; mu++) {
-    //    update_Ø(x, mu);
+    //    update_Ã˜(x, mu);
       }
-      delta += (Ø[x].real - old_real) * (Ø[x].real - old_real) + (Ø[x].imag - old_imag) * (Ø[x].imag - old_imag);
+      delta += (Ã˜[x].real - old_real) * (Ã˜[x].real - old_real) + (Ã˜[x].imag - old_imag) * (Ã˜[x].imag - old_imag);
     }
     iterations++;
   }
   
  printf("Solution:\n");
 for (int x = 0; x < LATTICE_VOLUME; x++) {
-  printf("x = %d, Ø.real = %f, Ø.imag = %f\n", x, Ø[x].real, Ø[x].imag);
+  printf("x = %d, Ã˜.real = %f, Ã˜.imag = %f\n", x, Ã˜[x].real, Ã˜[x].imag);
 }
 
   
